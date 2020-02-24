@@ -10,13 +10,15 @@
 	<link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('assets/css/simple-line-icons.css') }}" rel="stylesheet">
 	<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/vendors/pace-progress/css/pace.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/pace-progress/css/pace.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
-  
+         @include('layouts.module.header')
     <div class="app-body" id="dw">
+        
         <div class="sidebar">
-         
+            
             @include('layouts.module.sidebar')
             <button class="sidebar-minimizer brand-minimizer" type="button"></button>
         </div>

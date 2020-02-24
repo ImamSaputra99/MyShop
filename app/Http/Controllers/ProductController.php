@@ -34,8 +34,8 @@ class ProductController extends Controller
             'description' => 'required',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|integer',
-            'weight' => 'required|integer',
-            'image' => 'required|image|mimes:png,jpeg,jpg'
+            'weight' => 'required|integer'
+            
         ]);
 
         if($req->hasFile('image')){
@@ -92,7 +92,7 @@ class ProductController extends Controller
             $file = $req->file('image');
             $filename = time() . Str::slug($req->name). '.' . $file->getClientOriginalExtension();
 
-            $file->storesAs('public/product', $filename);
+            $file->storeAs('public/products',$filename);
             File::delete(storage_path('app/public/products' . $product->image));
         }
 
@@ -113,7 +113,7 @@ class ProductController extends Controller
         $categoru = Category::orderBy('name','DESC')->get();
         return view('products.bulk', compact('category'));
     }
-    public function massUpload()
+    public function massUpload(Request $req)
     {
         $this->validate($req,[
             'category_id' => 'required|exist:categories,id',
