@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
 use App\Customer;
+use App\Province;
 
 class FrontController extends Controller
 {
@@ -46,6 +47,36 @@ class FrontController extends Controller
         }
 
         return redirect(route('customer.login'))->with(['error' => 'Invalid Verifikasi token']);
+    }
+
+
+    public function customerSettingForm()
+    {
+        $customer = auth()->guard('customer')->user()->load('district');
+        $provinces = Province::orderBy('name','ASC')->get();
+        
+        return view('ecommerce.setting', compact('customer','provinces'));
+    }
+
+    public function customerUpdateProfile(Request $req)
+    {
+        $this->validate($req,[
+            'name' => 'required',
+            'phone_number' => 'required|max:14',
+            'address' => 'required|string',
+            'district' => 'required',
+            'password' => 'nullable|string|min:6'
+        ]);
+
+        $user = auth()->guard('customer')->user();
+
+        $data = $req->only('name','phone_number','address','district_id');
+        if($req->password != ''){
+            $data['password'] = $req->password;
+        }
+
+        $user->update($data);
+        return redirect()->back()->with(['success' => 'profil berhasil diperbaharui']);
     }
 
 }
