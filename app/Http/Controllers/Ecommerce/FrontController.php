@@ -33,12 +33,12 @@ class FrontController extends Controller
         return view('ecommerce.show',compact('product'));
     }
 
-    public function verifyCustomer($customer)
+    public function verifyCustomerRegistration($token)
     {
         $customer = Customer::where('active_token', $token)->first();
         if($customer){
             $customer->update([
-                'activer_token' => null,
+                'active_token' => null,
                 'status' => 1
             ]);
 

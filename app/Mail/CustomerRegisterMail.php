@@ -35,7 +35,7 @@ class CustomerRegisterMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Veryfikasi Akun Anda')->view('emamil.register')->with([
+        return $this->subject('Veryfikasi Akun Anda')->view('email.register')->with([
                                                         'customer' => $this->customer,
                                                         'password' => $this->randomPassword
                                                     ]);

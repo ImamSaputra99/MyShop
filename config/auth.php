@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+				
+      	/* TAMBAHKAN CODE INI */
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
 
         'api' => [
             'driver' => 'token',
@@ -71,6 +77,12 @@ return [
             'model' => App\User::class,
         ],
 
+      	/* TAMBAHKAN CODE INI */
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Customer::class,
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -97,7 +109,6 @@ return [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
-            'throttle' => 60,
         ],
     ],
 
@@ -113,5 +124,4 @@ return [
     */
 
     'password_timeout' => 10800,
-
 ];

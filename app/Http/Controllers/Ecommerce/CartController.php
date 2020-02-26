@@ -13,6 +13,8 @@ use App\Customer;
 use App\OrderDetails;
 use App\Order;
 use DB;
+use App\Mail\CustomerRegisterMail;
+use Mail;
 
 
 class CartController extends Controller
@@ -130,7 +132,7 @@ class CartController extends Controller
             $subtotal = collect($carts)->sum(function($q){
                 return $q['qty'] * $q['product_price'];
             });
-
+            $password = Str::random(8);
             $customer = Customer::create([
                 'name' => $req->customer_name,
                 'email' => $req->email,
@@ -168,7 +170,8 @@ class CartController extends Controller
             DB::commit();
 
             $carts = [];
-            $cookie = cookie('dw-carts',json_decode($carts), 2880);
+            $cookie = cookie('dw-carts',json_encode($carts), 2880);
+            Mail::to($req->email)->send(new CustomerRegisterMail($customer, $password));
             return redirect(route('front.finish_checkout', $order->invoice))->cookie($cookie);
         }catch (\Exception $e) {
             DB::rollback();

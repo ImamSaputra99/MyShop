@@ -19,6 +19,20 @@
 	
 	<link rel="stylesheet" href="{{ asset('ecommerce/css/style.css') }}">
 	<link rel="stylesheet" href="{{ asset('ecommerce/css/responsive.css') }}">
+	<style>
+		.menu-sidebar-area {
+		  list-style-type:none; padding-left: 0; font-size: 15pt;
+		}
+		.menu-sidebar-area > li {
+		  margin:0 0 10px 0;
+		  list-style-position:inside;
+		  border-bottom: 1px solid black;
+		}
+		.menu-sidebar-area > li > a {
+		  color: black
+		}
+	  </style>
+	  @yield('css')
 </head>
 
 <body>
@@ -31,10 +45,14 @@
 				</div>
 				<div class="float-right">
 					<ul class="right_side">
-						<li><a href="login.html">Login/Register</a></li>
+						@if(auth()->guard('customer')->check())
+						  <li><a href="{{ route('customer.logout') }}">Logout</a></li>
+						@else
+						  <li><a href="{{ route('customer.login') }}">Login</a></li>
+						@endif
 						<li><a href="#">My Account</a></li>
 						<li><a href="contact.html">Contact Us</a></li>
-					</ul>
+					  </ul>
 				</div>
 			</div>
 		</div>
