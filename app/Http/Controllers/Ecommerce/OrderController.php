@@ -8,20 +8,21 @@ use App\Order;
 use App\Payment;
 use Carbon\Carbon;
 use DB;
+use PDF;
 
 class OrderController extends Controller
 {
     public function index()
     {
         $orders = Order::where('customer_id', auth()->guard('customer')->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
-        return view('ecommerce.orders.index', compact('orders'));
+        return view('ecommerce.order.index', compact('orders'));
     }
 
     public function view($invoice)
     {
         $order = Order::with(['district.city.province', 'details', 'details.product', 'payment'])
             ->where('invoice', $invoice)->first();
-        return view('ecommerce.orders.view', compact('order'));
+        return view('ecommerce.order.view', compact('order'));
     }
 
     public function paymentForm()
@@ -66,5 +67,16 @@ class OrderController extends Controller
             DB::rollback();
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
+    }
+
+    public function pdf($invoice)
+    {
+        $order = Order::with(['district.city.province', 'details', 'details_product', 'payment'])->where('invoice',$invoice)->first();
+        if(!\Gate::forUSer(auth()->guard('customer')->user())->allows('order-view',$order)){
+            return redirect(route('customer.view_order', $order->invoice));
+        }
+
+        $pdf = PDF::loadView('ecommerce.order.pdf', compact('order'));
+        return $pdf->stream();
     }
 }

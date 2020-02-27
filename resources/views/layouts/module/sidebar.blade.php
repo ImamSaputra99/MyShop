@@ -26,8 +26,8 @@
         </li>
         <li class="nav-title">MANAJEMEN ORDER</li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('category.index') }}">
-                <i class="fa fa-fw fa-database"></i> 
+            <a class="nav-link" href="{{ route('orders.index') }}">
+                <i class="fa fa-fw fa-database"></i> Pesanan
             </a>
         </li>
 
